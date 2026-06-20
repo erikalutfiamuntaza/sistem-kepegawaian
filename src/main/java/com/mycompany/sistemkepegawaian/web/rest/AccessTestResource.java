@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/access")
 public class AccessTestResource {
 
+    private final AccessControlService accessControlService;
+
     public AccessTestResource(AccessControlService accessControlService) {
         System.out.println("ACCESS CONTROLLER LOADED");
-        this.AccessControlService = accessControlService;
+        this.accessControlService = accessControlService;
     }
 
     @GetMapping("/employee")
