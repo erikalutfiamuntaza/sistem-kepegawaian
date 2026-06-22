@@ -1,0 +1,26 @@
+dn: cn=EMPLOYEE,ou=Roles,dc=example,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: EMPLOYEE
+member: uid=user1
+
+
+dn: cn=HRD,ou=Roles,dc=example,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: HRD
+member: uid=user2
+
+
+dn: cn=MANAGER,ou=Roles,dc=example,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: MANAGER
+member: uid=user3
+
+
+dn: cn=ADMIN,ou=Roles,dc=example,dc=com
+objectClass: top
+objectClass: groupOfNames
+cn: ADMIN
+member: uid=admin

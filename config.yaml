@@ -1,0 +1,28 @@
+deployment:
+  role: traditional
+
+  admin:
+    allow_admin:
+      - 0.0.0.0/0
+
+    admin_key:
+      - name: admin
+        key: apisix-key
+        role: admin
+
+  etcd:
+    host:
+      - "http://etcd:2379"
+
+apisix:
+  node_listen: 9080
+
+plugin_attr:
+  prometheus:
+    export_addr:
+      ip: 0.0.0.0
+      port: 9091
+
+nginx_config:
+  http:
+    enable_access_log: true
