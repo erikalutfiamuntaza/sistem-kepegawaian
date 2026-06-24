@@ -1,0 +1,174 @@
+<div>
+  <h2 id="page-heading" data-cy="PegawaiHeading">
+    <span jhiTranslate="sistemKepegawaianApp.pegawai.home.title">Pegawais</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading()">
+        <fa-icon icon="sync" [animation]="isLoading() ? 'spin' : undefined" />
+        <span jhiTranslate="sistemKepegawaianApp.pegawai.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-pegawai"
+        [routerLink]="['/pegawai/new']"
+      >
+        <fa-icon icon="plus" />
+        <span jhiTranslate="sistemKepegawaianApp.pegawai.home.createLabel">Create a new Pegawai</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  <jhi-filter [filters]="filters" />
+
+  @if (pegawais().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="sistemKepegawaianApp.pegawai.home.notFound">No Pegawais found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="nama">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.pegawai.nama">Nama</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="jabatan">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.pegawai.jabatan">Jabatan</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="departemen">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.pegawai.departemen">Departemen</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="gaji">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.pegawai.gaji">Gaji</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pegawai of pegawais(); track trackId(pegawai)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/pegawai', pegawai.id, 'view']">{{ pegawai.id }}</a>
+              </td>
+              <td>{{ pegawai.nama }}</td>
+              <td>{{ pegawai.jabatan }}</td>
+              <td>{{ pegawai.departemen }}</td>
+              <td>{{ pegawai.gaji }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <button
+                    type="submit"
+                    [routerLink]="['/cuti']"
+                    [queryParams]="{ 'filter[pegawaiId.in]': pegawai.id }"
+                    class="btn btn-info btn-sm"
+                    data-cy="filterOtherEntityButton"
+                  >
+                    <fa-icon icon="eye" />
+                    <span
+                      class="d-none d-md-inline"
+                      jhiTranslate="entity.action.show"
+                      [translateValues]="{ otherEntity: ('sistemKepegawaianApp.pegawai.cuti' | translate) }"
+                      >Show Cuti</span
+                    >
+                  </button>
+                  <button
+                    type="submit"
+                    [routerLink]="['/penggajian']"
+                    [queryParams]="{ 'filter[pegawaiId.in]': pegawai.id }"
+                    class="btn btn-info btn-sm"
+                    data-cy="filterOtherEntityButton"
+                  >
+                    <fa-icon icon="eye" />
+                    <span
+                      class="d-none d-md-inline"
+                      jhiTranslate="entity.action.show"
+                      [translateValues]="{ otherEntity: ('sistemKepegawaianApp.pegawai.penggajian' | translate) }"
+                      >Show Penggajian</span
+                    >
+                  </button>
+                  <button
+                    type="submit"
+                    [routerLink]="['/absensi']"
+                    [queryParams]="{ 'filter[pegawaiId.in]': pegawai.id }"
+                    class="btn btn-info btn-sm"
+                    data-cy="filterOtherEntityButton"
+                  >
+                    <fa-icon icon="eye" />
+                    <span
+                      class="d-none d-md-inline"
+                      jhiTranslate="entity.action.show"
+                      [translateValues]="{ otherEntity: ('sistemKepegawaianApp.pegawai.absensi' | translate) }"
+                      >Show Absensi</span
+                    >
+                  </button>
+                  <a [routerLink]="['/pegawai', pegawai.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye" />
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/pegawai', pegawai.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt" />
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(pegawai)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times" />
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (pegawais().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page(), totalItems: totalItems(), itemsPerPage: itemsPerPage() }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems()"
+          [page]="page()"
+          [pageSize]="itemsPerPage()"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        />
+      </div>
+    </div>
+  }
+</div>

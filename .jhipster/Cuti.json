@@ -1,0 +1,45 @@
+{
+  "annotations": {
+    "changelogDate": "20260624062300"
+  },
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "tanggalMulai",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "tanggalSelesai",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "alasan",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Cuti",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "nama",
+      "otherEntityName": "pegawai",
+      "otherEntityRelationshipName": "cuti",
+      "relationshipName": "pegawai",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

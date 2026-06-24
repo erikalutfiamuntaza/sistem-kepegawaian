@@ -1,0 +1,28 @@
+{
+  "sistemKepegawaianApp": {
+    "cuti": {
+      "home": {
+        "title": "Cutis",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cuti",
+        "createOrEditLabel": "Create or edit a Cuti",
+        "notFound": "No Cutis found"
+      },
+      "created": "A new Cuti is created with identifier {{ param }}",
+      "updated": "A Cuti is updated with identifier {{ param }}",
+      "deleted": "A Cuti is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cuti {{ id }}?"
+      },
+      "detail": {
+        "title": "Cuti"
+      },
+      "id": "ID",
+      "tanggalMulai": "Tanggal Mulai",
+      "tanggalSelesai": "Tanggal Selesai",
+      "alasan": "Alasan",
+      "status": "Status",
+      "pegawai": "Pegawai"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "sistemKepegawaianApp": {
+    "pegawai": {
+      "home": {
+        "title": "Pegawais",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Pegawai",
+        "createOrEditLabel": "Create or edit a Pegawai",
+        "notFound": "No Pegawais found"
+      },
+      "created": "A new Pegawai is created with identifier {{ param }}",
+      "updated": "A Pegawai is updated with identifier {{ param }}",
+      "deleted": "A Pegawai is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Pegawai {{ id }}?"
+      },
+      "detail": {
+        "title": "Pegawai"
+      },
+      "id": "ID",
+      "nama": "Nama",
+      "jabatan": "Jabatan",
+      "departemen": "Departemen",
+      "gaji": "Gaji",
+      "cuti": "Cuti",
+      "penggajian": "Penggajian",
+      "absensi": "Absensi"
+    }
+  }
+}

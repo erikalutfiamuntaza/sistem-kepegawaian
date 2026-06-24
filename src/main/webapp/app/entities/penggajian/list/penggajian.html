@@ -1,0 +1,150 @@
+<div>
+  <h2 id="page-heading" data-cy="PenggajianHeading">
+    <span jhiTranslate="sistemKepegawaianApp.penggajian.home.title">Penggajians</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading()">
+        <fa-icon icon="sync" [animation]="isLoading() ? 'spin' : undefined" />
+        <span jhiTranslate="sistemKepegawaianApp.penggajian.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-penggajian"
+        [routerLink]="['/penggajian/new']"
+      >
+        <fa-icon icon="plus" />
+        <span jhiTranslate="sistemKepegawaianApp.penggajian.home.createLabel">Create a new Penggajian</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  <jhi-filter [filters]="filters" />
+
+  @if (penggajians().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="sistemKepegawaianApp.penggajian.home.notFound">No Penggajians found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="bulan">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.penggajian.bulan">Bulan</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="gajiPokok">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.penggajian.gajiPokok">Gaji Pokok</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="bonus">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.penggajian.bonus">Bonus</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="potongan">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.penggajian.potongan">Potongan</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="totalGaji">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.penggajian.totalGaji">Total Gaji</span>
+
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="pegawai.nama">
+              <div class="d-flex">
+                <span jhiTranslate="sistemKepegawaianApp.penggajian.pegawai">Pegawai</span>
+                <fa-icon class="p-1" icon="sort" />
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (penggajian of penggajians(); track trackId(penggajian)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/penggajian', penggajian.id, 'view']">{{ penggajian.id }}</a>
+              </td>
+              <td>{{ penggajian.bulan | formatMediumDate }}</td>
+              <td>{{ penggajian.gajiPokok }}</td>
+              <td>{{ penggajian.bonus }}</td>
+              <td>{{ penggajian.potongan }}</td>
+              <td>{{ penggajian.totalGaji }}</td>
+              <td>
+                @if (penggajian.pegawai) {
+                  <div>
+                    <a [routerLink]="['/pegawai', penggajian.pegawai.id, 'view']">{{ penggajian.pegawai.nama }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/penggajian', penggajian.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye" />
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/penggajian', penggajian.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt" />
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(penggajian)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times" />
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (penggajians().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page(), totalItems: totalItems(), itemsPerPage: itemsPerPage() }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems()"
+          [page]="page()"
+          [pageSize]="itemsPerPage()"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        />
+      </div>
+    </div>
+  }
+</div>

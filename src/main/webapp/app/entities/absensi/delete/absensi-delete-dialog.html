@@ -1,0 +1,24 @@
+@if (absensi) {
+  <form name="deleteForm" (ngSubmit)="confirmDelete(absensi.id!)">
+    <div class="modal-header">
+      <h4 class="modal-title" data-cy="absensiDeleteDialogHeading" jhiTranslate="entity.delete.title">Confirm delete operation</h4>
+    </div>
+
+    <div class="modal-body">
+      <jhi-alert-error />
+      <p id="jhi-delete-absensi-heading" jhiTranslate="sistemKepegawaianApp.absensi.delete.question" [translateValues]="{ id: absensi.id }">
+        Are you sure you want to delete Absensi {{ absensi.id }}?
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+        <fa-icon icon="ban" />&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+      </button>
+
+      <button id="jhi-confirm-delete-absensi" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
+        <fa-icon icon="times" />&nbsp;<span jhiTranslate="entity.action.delete">Delete</span>
+      </button>
+    </div>
+  </form>
+}

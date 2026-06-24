@@ -44,6 +44,13 @@ public class CacheConfiguration {
             createCache(cm, com.mycompany.sistemkepegawaian.domain.User.class.getName());
             createCache(cm, com.mycompany.sistemkepegawaian.domain.Authority.class.getName());
             createCache(cm, com.mycompany.sistemkepegawaian.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.mycompany.sistemkepegawaian.domain.Pegawai.class.getName());
+            createCache(cm, com.mycompany.sistemkepegawaian.domain.Pegawai.class.getName() + ".cutis");
+            createCache(cm, com.mycompany.sistemkepegawaian.domain.Cuti.class.getName());
+            createCache(cm, com.mycompany.sistemkepegawaian.domain.Pegawai.class.getName() + ".penggajians");
+            createCache(cm, com.mycompany.sistemkepegawaian.domain.Penggajian.class.getName());
+            createCache(cm, com.mycompany.sistemkepegawaian.domain.Pegawai.class.getName() + ".absensis");
+            createCache(cm, com.mycompany.sistemkepegawaian.domain.Absensi.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

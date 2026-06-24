@@ -1,0 +1,140 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-cuti-heading" data-cy="CutiCreateUpdateHeading" jhiTranslate="sistemKepegawaianApp.cuti.home.createOrEditLabel">
+        Create or edit a Cuti
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="global.field.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let tanggalMulaiRef = editForm.get('tanggalMulai')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_tanggalMulai" jhiTranslate="sistemKepegawaianApp.cuti.tanggalMulai">Tanggal Mulai</label>
+          <div class="input-group">
+            <input
+              id="field_tanggalMulai"
+              data-cy="tanggalMulai"
+              type="text"
+              class="form-control"
+              name="tanggalMulai"
+              ngbDatepicker
+              #tanggalMulaiDp="ngbDatepicker"
+              formControlName="tanggalMulai"
+            />
+            <button type="button" class="btn btn-secondary" (click)="tanggalMulaiDp.toggle()"><fa-icon icon="calendar-alt" /></button>
+          </div>
+          @if (tanggalMulaiRef.invalid && (tanggalMulaiRef.dirty || tanggalMulaiRef.touched)) {
+            <div>
+              @if (editForm.get('tanggalMulai')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let tanggalSelesaiRef = editForm.get('tanggalSelesai')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_tanggalSelesai" jhiTranslate="sistemKepegawaianApp.cuti.tanggalSelesai"
+            >Tanggal Selesai</label
+          >
+          <div class="input-group">
+            <input
+              id="field_tanggalSelesai"
+              data-cy="tanggalSelesai"
+              type="text"
+              class="form-control"
+              name="tanggalSelesai"
+              ngbDatepicker
+              #tanggalSelesaiDp="ngbDatepicker"
+              formControlName="tanggalSelesai"
+            />
+            <button type="button" class="btn btn-secondary" (click)="tanggalSelesaiDp.toggle()"><fa-icon icon="calendar-alt" /></button>
+          </div>
+          @if (tanggalSelesaiRef.invalid && (tanggalSelesaiRef.dirty || tanggalSelesaiRef.touched)) {
+            <div>
+              @if (editForm.get('tanggalSelesai')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let alasanRef = editForm.get('alasan')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_alasan" jhiTranslate="sistemKepegawaianApp.cuti.alasan">Alasan</label>
+          <input type="text" class="form-control" name="alasan" id="field_alasan" data-cy="alasan" formControlName="alasan" />
+          @if (alasanRef.invalid && (alasanRef.dirty || alasanRef.touched)) {
+            <div>
+              @if (editForm.get('alasan')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let statusRef = editForm.get('status')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_status" jhiTranslate="sistemKepegawaianApp.cuti.status">Status</label>
+          <input type="text" class="form-control" name="status" id="field_status" data-cy="status" formControlName="status" />
+          @if (statusRef.invalid && (statusRef.dirty || statusRef.touched)) {
+            <div>
+              @if (editForm.get('status')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_pegawai" jhiTranslate="sistemKepegawaianApp.cuti.pegawai">Pegawai</label>
+          <select
+            class="form-control"
+            id="field_pegawai"
+            data-cy="pegawai"
+            name="pegawai"
+            formControlName="pegawai"
+            [compareWith]="comparePegawai"
+          >
+            @if (editForm.get(['pegawai'])!.value === null) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (pegawaiOption of pegawaisSharedCollection(); track $index) {
+              <option [ngValue]="pegawaiOption">{{ pegawaiOption.nama }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['pegawai'])!.invalid && (editForm.get(['pegawai'])!.dirty || editForm.get(['pegawai'])!.touched)) {
+          <div>
+            @if (editForm.get(['pegawai'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban" />&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving()"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save" />&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

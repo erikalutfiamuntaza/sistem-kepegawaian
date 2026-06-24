@@ -1,0 +1,164 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-penggajian-heading"
+        data-cy="PenggajianCreateUpdateHeading"
+        jhiTranslate="sistemKepegawaianApp.penggajian.home.createOrEditLabel"
+      >
+        Create or edit a Penggajian
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="global.field.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let bulanRef = editForm.get('bulan')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_bulan" jhiTranslate="sistemKepegawaianApp.penggajian.bulan">Bulan</label>
+          <div class="input-group">
+            <input
+              id="field_bulan"
+              data-cy="bulan"
+              type="text"
+              class="form-control"
+              name="bulan"
+              ngbDatepicker
+              #bulanDp="ngbDatepicker"
+              formControlName="bulan"
+            />
+            <button type="button" class="btn btn-secondary" (click)="bulanDp.toggle()"><fa-icon icon="calendar-alt" /></button>
+          </div>
+          @if (bulanRef.invalid && (bulanRef.dirty || bulanRef.touched)) {
+            <div>
+              @if (editForm.get('bulan')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let gajiPokokRef = editForm.get('gajiPokok')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_gajiPokok" jhiTranslate="sistemKepegawaianApp.penggajian.gajiPokok">Gaji Pokok</label>
+          <input type="number" class="form-control" name="gajiPokok" id="field_gajiPokok" data-cy="gajiPokok" formControlName="gajiPokok" />
+          @if (gajiPokokRef.invalid && (gajiPokokRef.dirty || gajiPokokRef.touched)) {
+            <div>
+              @if (editForm.get('gajiPokok')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('gajiPokok')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let bonusRef = editForm.get('bonus')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_bonus" jhiTranslate="sistemKepegawaianApp.penggajian.bonus">Bonus</label>
+          <input type="number" class="form-control" name="bonus" id="field_bonus" data-cy="bonus" formControlName="bonus" />
+          @if (bonusRef.invalid && (bonusRef.dirty || bonusRef.touched)) {
+            <div>
+              @if (editForm.get('bonus')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('bonus')?.errors?.number" jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let potonganRef = editForm.get('potongan')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_potongan" jhiTranslate="sistemKepegawaianApp.penggajian.potongan">Potongan</label>
+          <input type="number" class="form-control" name="potongan" id="field_potongan" data-cy="potongan" formControlName="potongan" />
+          @if (potonganRef.invalid && (potonganRef.dirty || potonganRef.touched)) {
+            <div>
+              @if (editForm.get('potongan')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('potongan')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let totalGajiRef = editForm.get('totalGaji')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_totalGaji" jhiTranslate="sistemKepegawaianApp.penggajian.totalGaji">Total Gaji</label>
+          <input type="number" class="form-control" name="totalGaji" id="field_totalGaji" data-cy="totalGaji" formControlName="totalGaji" />
+          @if (totalGajiRef.invalid && (totalGajiRef.dirty || totalGajiRef.touched)) {
+            <div>
+              @if (editForm.get('totalGaji')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('totalGaji')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_pegawai" jhiTranslate="sistemKepegawaianApp.penggajian.pegawai">Pegawai</label>
+          <select
+            class="form-control"
+            id="field_pegawai"
+            data-cy="pegawai"
+            name="pegawai"
+            formControlName="pegawai"
+            [compareWith]="comparePegawai"
+          >
+            @if (editForm.get(['pegawai'])!.value === null) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (pegawaiOption of pegawaisSharedCollection(); track $index) {
+              <option [ngValue]="pegawaiOption">{{ pegawaiOption.nama }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['pegawai'])!.invalid && (editForm.get(['pegawai'])!.dirty || editForm.get(['pegawai'])!.touched)) {
+          <div>
+            @if (editForm.get(['pegawai'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban" />&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving()"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save" />&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

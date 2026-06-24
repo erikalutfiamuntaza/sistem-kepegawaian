@@ -1,0 +1,45 @@
+{
+  "annotations": {
+    "changelogDate": "20260624082001"
+  },
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "tanggal",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "jamMasuk",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "jamKeluar",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Absensi",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "nama",
+      "otherEntityName": "pegawai",
+      "otherEntityRelationshipName": "absensi",
+      "relationshipName": "pegawai",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

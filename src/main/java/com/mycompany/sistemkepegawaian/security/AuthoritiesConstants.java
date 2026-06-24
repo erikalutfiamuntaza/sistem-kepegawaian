@@ -1,11 +1,12 @@
 package com.mycompany.sistemkepegawaian.security;
 
-/**
- * Constants for Spring Security authorities.
- */
 public final class AuthoritiesConstants {
 
     public static final String ADMIN = "ROLE_ADMIN";
+
+    public static final String HRD = "ROLE_HRD";
+
+    public static final String MANAGER = "ROLE_MANAGER";
 
     public static final String USER = "ROLE_USER";
 
